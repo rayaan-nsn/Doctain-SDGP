@@ -1,7 +1,12 @@
 $(document).ready(function() {
-    $('#searchTerm').on('keyup', function() {
+  
+  var userInputArray = [];  // Define an empty array to store user input
+
+  // When user types in the search input field  
+  $('#searchTerm').on('keyup', function() {
       var input = $(this).val().toLowerCase();
 
+      //suggestion list
       var suggestions = ['Chest pain', 'shortness of breath', 'fatigue', 'dizziness', 'sweating', 'nausea', 'vomiting', 'lightheadedness',
         'weakness', 'irregular heartbeat', 'headaches', 'blurred vision', 'nosebleeds', 'palpitations', 'feeling of fullness or pressure in chest',
         'leg pain', 'numbness', 'tingling', 'coldness', 'slow healing of wounds', 'swelling in legs and ankles', 'swelling', 'persistent cough',
@@ -19,46 +24,87 @@ $(document).ready(function() {
         'shape or color of a mole', 'a sore that does not heal', 'a spot or lump that bleeds or crusts over', 'abdominal bloating or swelling', 'pelvic pain', 'difficulty eating or feeling full quickly',
         'loss of appetite', 'increased appetite', 'jaundice', 'dark urine', 'foamy or bloody urine', 'light-colored stools', 'frequent infections', 'easy bleeding or bruising', 'itching', 'headaches',
         'seizures', 'difficulty thinking'
-];
+      ];
+  
+      // Filter the suggestions based on the user input
       var filteredSuggestions = suggestions.filter(function(suggestion) {
         return suggestion.toLowerCase().includes(input);
       });
-      var suggestionsHtml = '';
+
+      var suggestionsHtml = ''; // Define an empty string to store the suggestions HTML
+
       if (input.length > 0) {
-        for (var i = 0; i < filteredSuggestions.length; i++) {
-          var suggestion = filteredSuggestions[i];
-          var highlightIndex = suggestion.toLowerCase().indexOf(input);
-          var highlightedSuggestion = suggestion.slice(0, highlightIndex) + '<span class="highlight">' + suggestion.slice(highlightIndex, highlightIndex + input.length) + '</span>' + suggestion.slice(highlightIndex + input.length);
-          suggestionsHtml += '<div class="suggestion">' + highlightedSuggestion + '</div>';
+        for (var i = 0; i < filteredSuggestions.length; i++) {  //If user input is not empty loop through the filtered suggestions
+          var suggestion = filteredSuggestions[i];  // Get a suggestion
+          var highlightIndex = suggestion.toLowerCase().indexOf(input); // Get the index of the user input within the suggestion
+          var highlightedSuggestion = suggestion.slice(0, highlightIndex) + '<span class="highlight">' + suggestion.slice(highlightIndex, highlightIndex + input.length) + '</span>' + suggestion.slice(highlightIndex + input.length); // Highlight the user input within the suggestion using a span with a class of 'highlight'
+          suggestionsHtml += '<div class="suggestion">' + highlightedSuggestion + '</div>'; // Add the highlighted suggestion to the suggestions HTML
         }
       }
-      $('#suggestionsList').html(suggestionsHtml);
+      $('#suggestionsList').html(suggestionsHtml);  // Set the suggestions HTML to the suggestions list element
     });
   
+
+    // When a suggestion is clicked
     $(document).on('click', '.suggestion', function() {
-      var tag = $(this).text();
+      var tag = $(this).text(); // Get the text of the clicked suggestion
+
+      // If the tag is not already in the tag list, add it
       if ($('#tagList').find('.tag:contains(' + tag + ')').length == 0) {
         $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;<i class="fa-solid fa-xmark close"></i></div>');
-
       }
+
+      // Clear the search input field and the suggestions list
       $('#searchTerm').val('');
       $('#suggestionsList').empty();
+
+      userInputArray.push(tag); // Add the tag to the user input array
+
     });
-  
-    $(document).on('click', '.tag .close', function() {
-      $(this).parent().remove();
-    });
-  
+
+
+
+  // When a key is pressed down on the search input field
     $('#searchTerm').on('keydown', function(e) {
       if (e.which === 13) {
-        var tag = $(this).val();
+        var tag = $(this).val();  // If the key is the Enter key get the value of the search input field
+
+        // If the tag is not already in the tag list, add it
         if ($('#tagList').find('.tag:contains(' + tag + ')').length == 0) {
             $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;<i class="fa-solid fa-xmark close"></i></div>');
         }
+
+        // Clear the search input field and the suggestions list
         $(this).val('');
         $('#suggestionsList').empty();
+
+        userInputArray.push(tag); // Add the tag to the user input array
       }
     });
+
+  
+    // When the close button on a tag is clicked remove the tag from the tag list
+    $(document).on('click', '.tag .close', function() {
+      $(this).parent().remove();
+    });
+
+
+    // When the search button is clicked send the user input array to the backend
+    $('.searchButton').on('click', function() {
+      $.ajax({
+        type: "POST",
+        url: "/user_input",
+        data: JSON.stringify(userInputArray),
+        contentType: "application/json;charset=UTF-8",
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr.responseText);
+        }
+      });
+    });
+    
 });
 
 

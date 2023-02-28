@@ -5,6 +5,56 @@
     font-family: 'Sofia Sans Semi Condensed', sans-serif;
 }
 
+#tagList {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    height: 15px;
+    margin: 5px;
+  }
+
+  .close{
+    height: 10px;
+  }
+  
+  #suggestionsList {
+    position: absolute;
+    background-color: #fff;
+    /* border: 1px solid #ccc; */
+    max-height: 150px;
+    overflow-y: scroll;
+    width: 500px;
+    z-index: 1;
+  }
+  
+  .suggestion {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .suggestion:hover {
+    background-color: dodgerblue;
+  }
+
+  .suggestion {
+    padding: 5px;
+  }
+  
+  .highlight {
+    color: dodgerblue;
+    font-size: medium;
+  }
+  
+  
+  
+
 /*Navbar*/
 
 nav{
