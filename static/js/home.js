@@ -51,7 +51,7 @@ $(document).ready(function() {
 
       // If the tag is not already in the tag list, add it
       if ($('#tagList').find('.tag:contains(' + tag + ')').length == 0) {
-        $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;<i class="fa-solid fa-xmark close"></i></div>');
+        $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;&nbsp;<i class="fa-regular fa-circle-xmark close"></i></div>');
       }
 
       // Clear the search input field and the suggestions list
@@ -71,7 +71,7 @@ $(document).ready(function() {
 
         // If the tag is not already in the tag list, add it
         if ($('#tagList').find('.tag:contains(' + tag + ')').length == 0) {
-            $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;<i class="fa-solid fa-xmark close"></i></div>');
+            $('#tagList').append('<div class="tag">' + tag + '&nbsp;&nbsp;&nbsp;<i class="fa-regular fa-circle-xmark close"></i></div>');
         }
 
         // Clear the search input field and the suggestions list

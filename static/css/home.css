@@ -1,65 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital@1&display=swap');
 *{
-    background-color: #d9e0ff;
+    /*background-color: #d9e0ff;*/
     margin: 0;
     font-family: 'Sofia Sans Semi Condensed', sans-serif;
 }
 
-#tagList {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    padding: 3px 5px;
-    height: 15px;
-    margin: 5px;
-  }
-
-  .close{
-    height: 10px;
-  }
-  
-  #suggestionsList {
-    position: absolute;
-    background-color: #fff;
-    /* border: 1px solid #ccc; */
-    max-height: 150px;
-    overflow-y: scroll;
-    width: 500px;
-    z-index: 1;
-  }
-  
-  .suggestion {
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .suggestion:hover {
-    background-color: dodgerblue;
-  }
-
-  .suggestion {
-    padding: 5px;
-  }
-  
-  .highlight {
-    color: dodgerblue;
-    font-size: medium;
-  }
-  
-  
-  
+body{
+    height: 100%;
+    width: 100%;
+    background-image: url(../images/rayaan/bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*background-position: center center;*/
+}
 
 /*Navbar*/
 
 nav{
-    display: block;
-    margin: 2% auto auto;
+    /*display: flex;*/
+    /*align-items: center;*/
+    margin: 1% auto auto;
     width: 95%;
 }
 ul {
@@ -74,6 +34,7 @@ ul {
 }
 
 li {
+    align-items: center;
     float: left;
 }
 
@@ -104,10 +65,141 @@ li a:hover:not(.active) {
     /*background-color: #04AA6D;*/
 }
 
+ion-icon{
+    font-size: xx-large;
+}
+
 /*navbar ends*/
+
+/*container details begins*/
+
+.container{
+    margin-top: 5%;
+    width: 100%;
+}
+
+h1{
+    font-size: xxx-large;
+    margin-left: 10%;
+}
+
+span{
+    font-size: 30px;
+}
+
+.search-box{
+    display: block;
+    margin: auto;
+    width: 40%;
+}
+
+#searchTerm{
+    display: block;
+    margin: 7% auto 1%;
+    width: 100%;
+    height: 50px;
+    border: 2px solid dodgerblue;
+    border-radius: 50px;
+    padding-left: 30px;
+}
+
+.search-box > h6{
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.searchButton{
+    display: block;
+    margin: 2% auto auto;
+    height: 40px;
+    width: 25%;
+    color: white;
+    font-size: large;
+    background-color: dodgerblue;
+    border-radius: 100px;
+    border: none;
+}
+
+.searchButton:hover{
+    color: dodgerblue;
+    background-color: white;
+    border: 2px solid dodgerblue;
+    transition: all 0.5s ease;
+}
+
+.fa-search{
+    color: white;
+    background: none;
+}
+
+
+/*container details ends*/
+
+/*suggestion begins*/
+
+#tagList {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 45px;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    padding: 3px 10px;
+    height: 15px;
+    margin: 5px;
+    line-height: 15px; /* Set the line-height to the same height as the tag container */
+}
+
+.tag .close {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+#suggestionsList {
+    display: block;
+    margin: auto;
+    position: absolute;
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y: scroll;
+    width: 40%;
+    z-index: 1;
+}
+
+.suggestion {
+    padding: 5px 5px 5px 20px;
+    cursor: pointer;
+}
+
+.suggestion:hover {
+    background-color: #A9C9FF;
+}
+
+.highlight {
+    color: dodgerblue;
+    font-size: medium;
+}
+
+/*suggestion ends*/
+
+.statistics{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    float: left;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
 /*footer begins*/
 footer{
-    width: 100%;
+    width: 99.2%;
     text-align: center;
     background-color: dodgerblue;
     position: absolute;
@@ -118,81 +210,4 @@ footer{
 footer > h6 {
     background-color: dodgerblue;
 }
-
-.column-container{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-.searchbar{
-    margin-top: 10%;
-    background-color: white;
-    width: 100%;
-    border-radius: 50px;
-    height: 40px;
-    border: 2px solid dodgerblue;
-    padding: 5px;
-
-}
-
-.searchTerm{
-    margin-left: 15px;
-    height: 100%;
-    width: 80%;
-    background: none;
-    border: none;
-}
-
-.searchButton{
-    height: 100%;
-    width: 10%;
-    background-color: dodgerblue;
-    border-radius: 100px;
-    /*margin-right: 15px;*/
-    float: right;
-    border: none;
-}
-
-.fa-search{
-    color: white;
-    background: none;
-}
-
-.head {
-    width: 85%;
-    display: block;
-    margin: auto;
-}
-
-h1{
-    font-size: 50px;
-}
-
-.column1{
-    margin-top: 5%;
-}
-
-.column2{
-    display: block;
-    margin: auto;
-}
-
-.column2 > div{
-
-}
-
-.column2 > div > h5 {
-    text-align: center;
-
-    margin-top: 10%;
-}
-.example-doc-img{
-    margin-top: 10%;
-    display: flex;
-    justify-content: center;
-}
-
-span{
-    font-size: 30px;
-}
+/*footer ends*/
