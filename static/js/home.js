@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  
+
   var userInputArray = [];  // Define an empty array to store user input
 
   // When user types in the search input field  
@@ -89,24 +89,49 @@ $(document).ready(function() {
     });
 
 
-    // When the search button is clicked send the user input array to the backend
-    $('.searchButton').on('click', function() {
-      $.ajax({
-        type: "POST",
-        url: "/user_input",
-        data: JSON.stringify(userInputArray),
-        contentType: "application/json;charset=UTF-8",
-        success: function(response) {
-          console.log(response);
-        },
-        error: function(xhr, status, error) {
-          console.log(xhr.responseText);
+  $('.searchButton').on('click', function() {
+    $.ajax({
+      type: "POST",
+      url: "/user_input",
+      data: JSON.stringify(userInputArray),
+      contentType: "application/json;charset=UTF-8",
+      success: function(response) {
+        $('.container').empty().append(
+
+            `<div class="results-container">
+                <div class='disease-column'>
+                    <h1 class="">Possible Causes</h1>
+                    <div class="possible-diseases"></div>
+                </div>
+                <div class="doctors-column">
+                    <h1>Recommended Doctors</h1>
+                    <div class="recommended-doctors">
+</div>
+                </div>
+            </div>
+            `);
+
+        for (let i = 0; i < response.disease.length; i++) {
+          const disease = response.disease[i];
+          $('.possible-diseases').append(`<p class="disease">${disease}</p>`);
         }
-      });
+        for (let i = 0; i < response.doctors.length; i++) {
+          const doctors = response.doctors[i];
+          $('.recommended-doctors').append(`
+              <div class="doctor-profile">
+                <h6></h6>
+                <p>${doctors}</p>
+              </div>
+          `);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr.responseText);
+      }
     });
+  });
+
+
     
 });
 
-
-
-  

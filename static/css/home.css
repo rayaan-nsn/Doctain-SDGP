@@ -78,7 +78,7 @@ ion-icon{
     width: 100%;
 }
 
-h1{
+.title{
     font-size: xxx-large;
     margin-left: 10%;
 }
@@ -195,6 +195,43 @@ span{
     float: left;
     margin-left: 3%;
     margin-top: 5%;
+}
+
+
+/*Result Container begins*/
+
+.results-container{
+    display: flex;
+}
+
+.disease-column, .doctors-column{
+    display: block;
+    margin: 0 auto auto;
+    width: 45%;
+    background-color: white;
+    border-radius: 20px;
+    height: 90%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.disease-column>h1, .doctors-column>h1{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: 2px solid #e7e7e7;
+}
+
+
+.disease{
+    color: dodgerblue;
+    margin: 8px;
+    padding-left: 5%;
+}
+
+.doctor-profile{
+    height: 50px;
+    border: 1px solid dodgerblue;
+    margin: 5px;
 }
 
 /*footer begins*/
