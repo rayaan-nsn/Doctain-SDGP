@@ -6,39 +6,6 @@ from sklearn.naive_bayes import GaussianNB
 app = Flask(__name__)
 
 
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-
-@app.route('/faq')
-def faq():
-    return render_template('faq.html')
-
-
-@app.route('/contactUs')
-def contactUs():
-    return render_template('contact.html')
-
-
-@app.route('/user_input', methods=['POST'])
-def receive_user_input():
-    if request.method == 'POST':
-        user_symptoms = request.json  # assuming input is sent as a JSON array
-        predicted_disease, matching_diseases = predict_disease(user_symptoms)
-        doctors = ['Dr. Patel', 'Dr. Fernando', 'Dr. John']
-        return jsonify({
-            'message': 'User input received successfully.',
-            'predicted_disease': predicted_disease,
-            'matching_diseases': matching_diseases,
-            'doctors': doctors
-        })
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 def predict_disease(user_symptoms):
     # Load the training and the testing dataset from the CSV file
     train_dataset = pd.read_csv('./static/dataset/training_dataset (non_com).csv')
@@ -81,3 +48,36 @@ def predict_disease(user_symptoms):
     print(matching_diseases)
 
     return predicted_disease, matching_diseases
+
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+
+@app.route('/contactUs')
+def contactUs():
+    return render_template('contact.html')
+
+
+@app.route('/user_input', methods=['POST'])
+def receive_user_input():
+    if request.method == 'POST':
+        user_symptoms = request.json  # assuming input is sent as a JSON array
+        predicted_disease, matching_diseases = predict_disease(user_symptoms)
+        doctors = ['Dr. Patel', 'Dr. Fernando', 'Dr. John']
+        return jsonify({
+            'message': 'User input received successfully.',
+            'predicted_disease': predicted_disease,
+            'matching_diseases': matching_diseases,
+            'doctors': doctors
+        })
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
