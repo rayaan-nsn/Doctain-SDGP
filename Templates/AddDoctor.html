@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="title">Doctor Registration</div>
                 <div class="content">
-                <form method="POST" action="save">
+                <form id="savedoctorform">
                     <div class="user-details">
                     <div class="input-box">
                         <span class="details">First Name</span>
@@ -111,11 +111,27 @@
                 </form>
                 </div>
             </div>
-
-
-
-    
         </div>
-</div>
+    </div>
+
+<script>
+// Serialize form data into JSON string
+const form = document.getElementById('savedoctorform');
+const formData = new FormData(form);
+const jsonPayload = {};
+formData.forEach((value, key) => jsonPayload[key] = value);
+const jsonString = JSON.stringify(jsonPayload);
+
+// Send JSON payload with AJAX
+const xhr = new XMLHttpRequest();
+xhr.open('POST', '/submit', true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    console.log(xhr.responseText);
+  }
+};
+xhr.send(jsonString);
+</script>
 </body>
 </html>

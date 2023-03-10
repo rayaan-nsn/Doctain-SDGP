@@ -48,9 +48,12 @@ def predict_disease(user_symptoms):
     print(matching_diseases)
 
     return predicted_disease, matching_diseases
-
-
+    
 @app.route('/')
+def login():
+    return render_template('login.html')
+
+@app.route('/home')
 def home():
     return render_template('home.html')
 
@@ -77,6 +80,22 @@ def receive_user_input():
             'matching_diseases': matching_diseases,
             'doctors': doctors
         })
+
+@app.route('/admin')
+def Admin():
+   return render_template('AdminPage.html')
+
+@app.route('/addDoctor',methods=["GET","POST"])
+def addDoctor():
+   return render_template('AddDoctor.html')
+
+@app.route('/save', methods=['POST'])
+def save():
+    json_payload = request.get_json()
+    name = json_payload['Firstname']
+    email = json_payload['Lastname']
+    # Do something with name and email...
+    return jsonify({'success': True})
 
 
 if __name__ == '__main__':
