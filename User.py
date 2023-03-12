@@ -1,7 +1,9 @@
+import json
 import os
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
+import sys
 
 app = Flask(__name__)
 
@@ -89,12 +91,19 @@ def Admin():
 def addDoctor():
    return render_template('AddDoctor.html')
 
-@app.route('/save', methods=['POST'])
-def save():
-    json_payload = request.get_json()
-    name = json_payload['Firstname']
-    email = json_payload['Lastname']
+@app.route('/submit', methods=['POST'])
+def submit():
+    data = request.get_json() # get JSON data from request
+    fname = data['Firstname'] # access form data as JSON
+    lname = data['Lastname']
+    email = data['Email']
+    age = data['Age']
+    specialization= data['Specialization']
+    phonenumber= data['Phonenumber']
+    address= data['Address']
+
     # Do something with name and email...
+    print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
     return jsonify({'success': True})
 
 

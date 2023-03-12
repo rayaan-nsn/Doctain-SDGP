@@ -20,8 +20,8 @@
         <li><img src="../static/images/logo.png" style="height: 80px" alt=""></li>
         </div>
         <div>
-        <li><a class="" href="{{url_for('home')}}">DASHBOARD</a></li>
-        <li><a class="active" href="AddDoctor.html">ADD DOCTOR</a></li>
+        <li><a class="" href="{{url_for('Admin')}}">DASHBOARD</a></li>
+        <li><a class="active" href="{{url_for('addDoctor')}}">ADD DOCTOR</a></li>
         </div>
         <div>
         <li><a href="#" class="reg-button">LOGOUT</a></li>
@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="title">Doctor Registration</div>
                 <div class="content">
-                <form id="savedoctorform">
+                <form id="savedoctorform" method="POST">
                     <div class="user-details">
                     <div class="input-box">
                         <span class="details">First Name</span>
@@ -51,6 +51,10 @@
                     <div class="input-box">
                         <span class="details">Last Name</span>
                         <input type="text" placeholder="Last Name" name="Lastname" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="text" placeholder="Email" name="Email" >
                     </div>
                     <div class="input-box">
                         <span class="details">Age</span>
@@ -69,20 +73,7 @@
                         <input type="text" placeholder="Address" name="Address" >
                     </div>
 
-                    <div class="input-box">
-                        <span class="details">Lorem ipsum</span>
-                        <input type="text" placeholder="Lorem ipsum" >
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Lorem ipsum</span>
-                        <input type="text" placeholder="Lorem ipsum" >
-                    </div>
                     <!--Newly added ones-->
-
-                    <div class="input-box">
-                        <span class="details">Lorem ipsum</span>
-                        <input type="text" placeholder="Lorem ipsum" >
-                    </div>
             
                     </div>
                     <div class="gender-details">
@@ -106,7 +97,7 @@
                     </div>
                     </div>
                     <div class="button">
-                    <input type="submit" value="Register">
+                    <input type="submit" value="Submit">
                     </div>
                 </form>
                 </div>
@@ -115,23 +106,33 @@
     </div>
 
 <script>
-// Serialize form data into JSON string
-const form = document.getElementById('savedoctorform');
-const formData = new FormData(form);
-const jsonPayload = {};
-formData.forEach((value, key) => jsonPayload[key] = value);
-const jsonString = JSON.stringify(jsonPayload);
+ const form = document.getElementById('savedoctorform');
 
-// Send JSON payload with AJAX
-const xhr = new XMLHttpRequest();
-xhr.open('POST', '/submit', true);
-xhr.setRequestHeader('Content-Type', 'application/json');
-xhr.onreadystatechange = function() {
-  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-    console.log(xhr.responseText);
-  }
-};
-xhr.send(jsonString);
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const jsonData = {};
+
+    for (let [key, value] of formData.entries()) {
+        jsonData[key] = value;
+    }
+
+    fetch('/submit', {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        form.reset();
+    })
+    .catch(error => console.error(error));
+});
 </script>
+
 </body>
 </html>
