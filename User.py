@@ -50,10 +50,12 @@ def predict_disease(user_symptoms):
     print(matching_diseases)
 
     return predicted_disease, matching_diseases
-    
+
+
 @app.route('/')
 def login():
     return render_template('login.html')
+
 
 @app.route('/home')
 def home():
@@ -83,27 +85,31 @@ def receive_user_input():
             'doctors': doctors
         })
 
+
 @app.route('/admin')
 def Admin():
-   return render_template('AdminPage.html')
+    return render_template('AdminPage.html')
 
-@app.route('/addDoctor',methods=["GET","POST"])
+
+@app.route('/addDoctor', methods=["GET", "POST"])
 def addDoctor():
-   return render_template('AddDoctor.html')
+    return render_template('AddDoctor.html')
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json() # get JSON data from request
-    fname = data['Firstname'] # access form data as JSON
+    data = request.get_json()  # get JSON data from request
+    fname = data['Firstname']  # access form data as JSON
     lname = data['Lastname']
     email = data['Email']
     age = data['Age']
-    specialization= data['Specialization']
-    phonenumber= data['Phonenumber']
-    address= data['Address']
+    specialization = data['Specialization']
+    phonenumber = data['Phonenumber']
+    address = data['Address']
 
     # Do something with name and email...
-    print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
+    print(
+        f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
     return jsonify({'success': True})
 
 
