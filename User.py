@@ -113,6 +113,12 @@ def submit():
     phonenumber= data['Phonenumber']
     address= data['Address']
 
+    cur=mysql.connection.cursor()
+    cur.execute("INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (%s,%s,%s,%s,%s,%s,%s)",(fname,lname,email,age,specialization,phonenumber,address))
+    mysql.connection.commit()
+    cur.close()
+
+
     # Do something with name and email...
     print(
         f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
