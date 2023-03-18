@@ -11,7 +11,8 @@ body{
     background-image: url(../images/rayaan/bg.png);
     background-size: cover;
     background-repeat: no-repeat;
-    /*background-position: center center;*/
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 /*Navbar*/
@@ -84,7 +85,7 @@ ion-icon{
 }
 
 span{
-    font-size: 30px;
+    font-size: xx-large;
 }
 
 .search-box{
@@ -239,7 +240,7 @@ footer{
     width: 99.2%;
     text-align: center;
     background-color: dodgerblue;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     padding: 5px;
 }
@@ -248,3 +249,5 @@ footer > h6 {
     background-color: dodgerblue;
 }
 /*footer ends*/
+
+

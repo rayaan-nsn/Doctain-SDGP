@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital@1&display=swap');
 
 body{
-    background-image: url(../images/manugi/docimg.jpg);
+    background-image: url(../images/manugi/19876.jpg);
     background-repeat: no-repeat;
     background-position: 50%;
     background-attachment: fixed;
-    background-size: 50% 60%;
+    background-size: 100% 100%;
     font-family: 'Sofia Sans Semi Condensed', sans-serif;   
 }
 
@@ -70,15 +70,17 @@ h2 {
 #image-form {
     margin-left: 20px;
     font-size: large;
-    color: rgb(30, 30, 90);
+    color: rgb(24, 24, 54);
     font-family: 'Sofia Sans Semi Condensed', sans-serif;
 }
+
+
 
 #preview{
     display: flex;
     width: 200px;
     height: 200px;
-    border: 1px solid black;
+    border: 1px solid rgb(16, 13, 13);
     margin-top: -15px;
     flex-wrap: wrap;
     overflow-y: scroll;

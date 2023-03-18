@@ -56,10 +56,12 @@ def predict_disease(user_symptoms):
     print(matching_diseases)
 
     return predicted_disease, matching_diseases
-    
+
+
 @app.route('/')
 def login():
     return render_template('login.html')
+
 
 @app.route('/home')
 def home():
@@ -89,19 +91,21 @@ def receive_user_input():
             'doctors': doctors
         })
 
+
 @app.route('/admin')
 def Admin():
-   return render_template('AdminPage.html')
+    return render_template('AdminPage.html')
 
-@app.route('/addDoctor',methods=["GET","POST"])
+
+@app.route('/addDoctor', methods=["GET", "POST"])
 def addDoctor():
-   return render_template('AddDoctor.html')
+    return render_template('AddDoctor.html')
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json()
-    fname = data['Firstname'] 
+    data = request.get_json() # get JSON data from request
+    fname = data['Firstname'] # access form data as JSON
     lname = data['Lastname']
     email = data['Email']
     age = data['Age']
@@ -109,13 +113,9 @@ def submit():
     phonenumber= data['Phonenumber']
     address= data['Address']
 
-    cur=mysql.connection.cursor()
-    cur.execute("INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (%s,%s,%s,%s,%s,%s,%s)",(fname,lname,email,age,specialization,phonenumber,address))
-    mysql.connection.commit()
-    cur.close()
-
     # Do something with name and email...
-    print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
+    print(
+        f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
     return jsonify({'success': True})
 
 @app.route('/seedocs')
