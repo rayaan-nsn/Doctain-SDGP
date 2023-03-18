@@ -3,10 +3,16 @@ import os
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
-import sys
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
+app.config['MYSQL_HOST']="localhost"
+app.config['MYSQL_USER']="root"
+app.config['MYSQL_PASSWORD']=""
+app.config['MYSQL_DB']="doctainsdgp"
+
+mysql=MySQL(app)
 
 def predict_disease(user_symptoms):
     # Load the training and the testing dataset from the CSV file
@@ -91,10 +97,11 @@ def Admin():
 def addDoctor():
    return render_template('AddDoctor.html')
 
+
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json() # get JSON data from request
-    fname = data['Firstname'] # access form data as JSON
+    data = request.get_json()
+    fname = data['Firstname'] 
     lname = data['Lastname']
     email = data['Email']
     age = data['Age']
@@ -102,9 +109,23 @@ def submit():
     phonenumber= data['Phonenumber']
     address= data['Address']
 
+    cur=mysql.connection.cursor()
+    cur.execute("INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (%s,%s,%s,%s,%s,%s,%s)",(fname,lname,email,age,specialization,phonenumber,address))
+    mysql.connection.commit()
+    cur.close()
+
     # Do something with name and email...
     print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
     return jsonify({'success': True})
+
+@app.route('/seedocs')
+def seedocs():
+    cur=mysql.connection.cursor()
+    doctors=cur.execute("SELECT * FROM doctorsdetails")
+
+    if doctors>0:
+        doctorDetails=cur.fetchall()
+        return render_template('SeeDoctors.html',doctorDetails=doctorDetails)
 
 
 if __name__ == '__main__':
