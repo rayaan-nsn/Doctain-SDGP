@@ -1,11 +1,22 @@
 import json
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, redirect, render_template, request, jsonify, url_for, session
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
-import sys
+from flask_mysqldb import MySQL
+import MySQLdb.cursors
+import re
 
 app = Flask(__name__)
+
+app.secret_key = 'secret key'
+
+app.config['MYSQL_HOST']="localhost"
+app.config['MYSQL_USER']="root"
+app.config['MYSQL_PASSWORD']="0001"
+app.config['MYSQL_DB']="doctain_sdgp"
+
+mysql=MySQL(app)
 
 
 def predict_disease(user_symptoms):
@@ -50,14 +61,50 @@ def predict_disease(user_symptoms):
     print(matching_diseases)
 
     return predicted_disease, matching_diseases
-    
-@app.route('/')
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Multiple users login to the system connected with MySQL database
+
+@app.route('/', methods=['GET', 'POST'])
 def login():
+
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+
+        #if the admin enters correct username and the password system directs into admin page else search from the database
+        if username==str("doctainadmin") and password==str("admin123") :
+            return redirect(url_for('admin'))
+        else:
+            # Check if account exists using MySQL database
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM userdetails WHERE username = %s AND password = %s', (username, password,))
+
+            # Fetch one record and return result
+            account = cursor.fetchone()
+
+            # If account exists in accounts table in out database
+            if account:
+                session['loggedin'] = True
+                session['id'] = account['id']
+                session['username'] = account['username']
+                
+                # Redirect to home page
+                return redirect(url_for('home'))
+            else:
+                # Account doesnt exist or username/password incorrect print the output in the console
+                print('Incorrect username/password!')
     return render_template('login.html')
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    if 'loggedin' in session:
+        return render_template('home.html', username=session['username'])
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
 
 
 @app.route('/faq')
@@ -83,13 +130,16 @@ def receive_user_input():
             'doctors': doctors
         })
 
-@app.route('/admin')
-def Admin():
-   return render_template('AdminPage.html')
 
-@app.route('/addDoctor',methods=["GET","POST"])
+@app.route('/admin')
+def admin():
+    return render_template('AdminPage.html')
+
+
+@app.route('/addDoctor', methods=["GET", "POST"])
 def addDoctor():
-   return render_template('AddDoctor.html')
+    return render_template('AddDoctor.html')
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -102,9 +152,24 @@ def submit():
     phonenumber= data['Phonenumber']
     address= data['Address']
 
-    # Do something with name and email...
+    cur=mysql.connection.cursor()
+    cur.execute("INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (%s,%s,%s,%s,%s,%s,%s)",(fname,lname,email,age,specialization,phonenumber,address))
+    mysql.connection.commit()
+    cur.close()
+
     print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
     return jsonify({'success': True})
+
+
+@app.route('/seedocs')
+def seedocs():
+    cur=mysql.connection.cursor()
+    doctors=cur.execute("SELECT * FROM doctorsdetails")
+
+    if doctors>0:
+        doctorDetails=cur.fetchall()
+        return render_template('SeeDoctors.html',doctorDetails=doctorDetails)
+
 
 
 if __name__ == '__main__':

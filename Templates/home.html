@@ -22,7 +22,6 @@
         <div>
         <li><a class="active" href="#home">HOME</a></li>
         <li><a href="#">ABOUT</a></li>
-        <li><a href="#">SERVICE</a></li>
         <li><a href="{{url_for('faq')}}">FAQ</a></li>
         <li><a href="{{url_for('contactUs')}}">CONTACT</a></li>
         </div>
@@ -39,7 +38,7 @@
             More Experienced And <br>
             More Easy.</h1>
         <div class="search-box">
-            <label for="searchTerm"></label><input type="text" id="searchTerm" placeholder="What symptoms are you experiencing today?">
+            <label for="searchTerm"></label><input type="text" id="searchTerm" placeholder="What symptoms are you experiencing today?" autocomplete="off">
             <div id="suggestionsList"></div>
             <div id="tagList"></div>
             <h6>* The more symptoms you tell us, the more accurate your results will be.</h6>
