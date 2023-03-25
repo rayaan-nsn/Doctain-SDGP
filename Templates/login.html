@@ -32,14 +32,14 @@
                     <h1 class="headding">Login</h1>
                     <input type="text" placeholder="Username" name="username" class="form-control textbox" id="username" aria-describedby="nameHelp" >
                     <input type="password" placeholder="Password" name="password" class="form-control textbox" id="password" >
-                    <a class="link" href="../Templates/forgetpw.html">&nbsp;forgot password?</a>
+                    <a class="link" href="{{ url_for('forgetpw') }}">&nbsp;forgot password?</a>
                 </div>
                 <div id="errorContainer"></div>
             </div>
             <div class="div btns">
-                <h5>No account? <a class="link" href="../Templates/signup.html">&nbsp;Signup</a></h5>
+                <h5>No account? <a class="link" href="{{ url_for('signup') }}">&nbsp;Signup</a></h5>
                 <div class="msg">{{ msg }}</div>
-                <input type="submit" value="Login">
+                <input class="btn" type="submit" value="Login">
             </div>
         </form>
     </div>

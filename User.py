@@ -19,7 +19,7 @@ def create_connection():
     return conn
 
 
-# --------------------------------------Disease Prediction using ML---------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------Disease Prediction using ML---------------------------------------------------------------------------------------------
 
 def predict_disease(user_symptoms):
     # Load the training and the testing dataset from the CSV file
@@ -65,8 +65,6 @@ def predict_disease(user_symptoms):
     return predicted_disease, matching_diseases
 
 
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Multiple users login to the system connected with MySQL database
 
@@ -83,7 +81,7 @@ def login():
             # Check if account exists using SQLite database
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
-            cursor.execute('SELECT * FROM userdetails WHERE (username = ? OR email = ?) AND password = ?',
+            cursor.execute('SELECT * FROM usersdetails WHERE (username = ? OR email = ?) AND password = ?',
                            (username, username, password,))
             account = cursor.fetchone()
 
@@ -107,6 +105,14 @@ def login():
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/forgetpw')
+def forgetpw():
+    return render_template('forgetpw.html')
 
 @app.route('/home')
 def home():
@@ -188,10 +194,6 @@ def submit():
     conn.commit()
     cur.close()
     conn.close()
-
-    # print(
-    #     f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
-    # return jsonify({'success': True})
 
 
 @app.route('/seedocs')
