@@ -100,9 +100,13 @@ $(document).ready(function () {
 
                `<div class="results-container">
                 <div class='disease-column'>
-                    <h1 class="">Predicted Disease</h1>
-                    <div class="predicted_disease"></div>
-                    <div class="matching_diseases"></div>
+                    <h1 class="">Possible Causes</h1>
+                    <h5>Below are the most likely conditions based on the symptoms and information you entered.</h5>
+                    <div class="disease-list">
+                       <div class="predicted_disease"></div>
+                       <div class="matching_diseases"></div>
+                    </div>
+                  
                 </div>
                 <div class="doctors-column">
                     <h1>Recommended Doctors</h1>
@@ -112,7 +116,7 @@ $(document).ready(function () {
             `);
 
             const predicted_disease = response.predicted_disease;
-            $('.predicted_disease').append(`<h4 class="diseases" style="color: red">${predicted_disease}</h4>`);
+            $('.predicted_disease').append(`<h3 class="diseases" style="color: red">${predicted_disease}</h3>`);
 
             for (let i = 0; i < response.matching_diseases.length; i++) {
                const matching_diseases = response.matching_diseases[i];
@@ -120,17 +124,20 @@ $(document).ready(function () {
             }
 
 
-            for (let i = 0; i < response.doctors.length; i++) {
-               const doctor = response.doctors[i];
-               $('.recommended-doctors').append(`
-                 <div class="doctor-profile">
-                   <h6></h6>
-                   <p>${doctor}</p>
-                 </div>
-               `);
+            const doctors = response.doctors;
+            for (let i = 0; i < doctors.length; i++) {
+              const doctor = doctors[i];
+              $('.recommended-doctors').append(`
+                <div class="doctor-profile">
+                  <p><i class="fa-regular fa-user"></i> &nbsp; ${doctor.firstname} ${doctor.lastname}</p>
+                  <p><i class="fa-solid fa-at"></i> &nbsp; ${doctor.email}</p>
+                  <p><i class="fa-solid fa-phone"></i> &nbsp; ${doctor.phonenumber}</p>
+                  <p><i class="fa-solid fa-location-dot"></i> &nbsp; ${doctor.address}</p>
+                </div>
+              `);
             }
-         },
-         error: function (xhr, status, error) {
+          },
+          error: function (xhr, status, error) {
             console.log(xhr.responseText);
          }
       });

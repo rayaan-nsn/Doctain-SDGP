@@ -1,23 +1,25 @@
-import json
-import os
+# import json
+# import os
 from flask import Flask, redirect, render_template, request, jsonify, url_for, session
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-import re
+# from flask_mysqldb import MySQL
+# import MySQLdb.cursors
+# import re
+import sqlite3
 
 app = Flask(__name__)
-
 app.secret_key = 'secret key'
+DB_PATH = "./static/db/doctain.db"
 
-app.config['MYSQL_HOST']="localhost"
-app.config['MYSQL_USER']="root"
-app.config['MYSQL_PASSWORD']="0001"
-app.config['MYSQL_DB']="doctain_sdgp"
 
-mysql=MySQL(app)
+# create the connection object to the database
+def create_connection():
+    conn = sqlite3.connect(DB_PATH)
+    return conn
 
+
+# --------------------------------------------------------------------Disease Prediction using ML---------------------------------------------------------------------------------------------
 
 def predict_disease(user_symptoms):
     # Load the training and the testing dataset from the CSV file
@@ -57,47 +59,60 @@ def predict_disease(user_symptoms):
         if disease_probs[top_indices[i]] > 0:
             matching_diseases.append(disease_indices[top_indices[i]])
 
-    print(predicted_disease)
-    print(matching_diseases)
+    # print(predicted_disease)
+    # print(matching_diseases)
 
     return predicted_disease, matching_diseases
 
 
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Multiple users login to the system connected with MySQL database
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Multiple users login to the system connected with MySQL database
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
 
-        #if the admin enters correct username and the password system directs into admin page else search from the database
-        if username==str("doctainadmin") and password==str("admin123") :
+        # if the admin enters correct username and the password system directs into admin page else search from the database
+        if username == "doctainadmin" and password == "admin123":
             return redirect(url_for('admin'))
         else:
-            # Check if account exists using MySQL database
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT * FROM userdetails WHERE username = %s AND password = %s', (username, password,))
-
-            # Fetch one record and return result
+            # Check if account exists using SQLite database
+            conn = sqlite3.connect(DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM usersdetails WHERE (username = ? OR email = ?) AND password = ?',
+                           (username, username, password,))
             account = cursor.fetchone()
 
-            # If account exists in accounts table in out database
+            # If account exists in user details table in our database
             if account:
                 session['loggedin'] = True
-                session['id'] = account['id']
-                session['username'] = account['username']
-                
+                session['id'] = account[0]
+                session['username'] = account[1]
+
                 # Redirect to home page
                 return redirect(url_for('home'))
             else:
-                # Account doesnt exist or username/password incorrect print the output in the console
+                # Account doesn't exist or username/password is incorrect
                 print('Incorrect username/password!')
+
+            # Close connection and cursor
+            cursor.close()
+            conn.close()
+
     return render_template('login.html')
 
-#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/forgetpw')
+def forgetpw():
+    return render_template('forgetpw.html')
 
 @app.route('/home')
 def home():
@@ -122,7 +137,26 @@ def receive_user_input():
     if request.method == 'POST':
         user_symptoms = request.json  # assuming input is sent as a JSON array
         predicted_disease, matching_diseases = predict_disease(user_symptoms)
-        doctors = ['Dr. Patel', 'Dr. Fernando', 'Dr. John']
+
+        conn = sqlite3.connect(DB_PATH)
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT firstname, lastname, email, phonenumber, address FROM doctorsdetails WHERE specialization = ?",
+            (predicted_disease,))
+
+        doctors = []
+        for row in cur.fetchall():
+            doctor = {
+                'firstname': row[0],
+                'lastname': row[1],
+                'email': row[2],
+                'phonenumber': row[3],
+                'address': row[4]
+            }
+            doctors.append(doctor)
+
+        cur.close()
+        conn.close()
         return jsonify({
             'message': 'User input received successfully.',
             'predicted_disease': predicted_disease,
@@ -143,33 +177,38 @@ def addDoctor():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json() # get JSON data from request
-    fname = data['Firstname'] # access form data as JSON
+    data = request.get_json()
+    fname = data['Firstname']
     lname = data['Lastname']
     email = data['Email']
     age = data['Age']
-    specialization= data['Specialization']
-    phonenumber= data['Phonenumber']
-    address= data['Address']
+    specialization = data['Specialization']
+    phonenumber = data['Phonenumber']
+    address = data['Address']
 
-    cur=mysql.connection.cursor()
-    cur.execute("INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (%s,%s,%s,%s,%s,%s,%s)",(fname,lname,email,age,specialization,phonenumber,address))
-    mysql.connection.commit()
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO doctorsdetails (firstname,lastname,email,age,specialization,phonenumber,address) VALUES (?,?,?,?,?,?,?)",
+        (fname, lname, email, age, specialization, phonenumber, address))
+    conn.commit()
     cur.close()
-
-    print(f"First Name: {fname}\nLast Name: {lname}\nEmail: {email}\nAge: {age}\nSpecialization: {specialization}\nPhonenumber: {phonenumber}\nAddress: {address}")
-    return jsonify({'success': True})
+    conn.close()
 
 
 @app.route('/seedocs')
 def seedocs():
-    cur=mysql.connection.cursor()
-    doctors=cur.execute("SELECT * FROM doctorsdetails")
+    conn = create_connection()
+    cur = conn.cursor()
+    doctors = cur.execute("SELECT * FROM doctorsdetails")
 
-    if doctors>0:
-        doctorDetails=cur.fetchall()
-        return render_template('SeeDoctors.html',doctorDetails=doctorDetails)
-
+    if doctors > 0:
+        doctorDetails = cur.fetchall()
+        return render_template('SeeDoctors.html', doctorDetails=doctorDetails)
+    else:
+        return "No doctors found"
+    cur.close()
+    conn.close()
 
 
 if __name__ == '__main__':

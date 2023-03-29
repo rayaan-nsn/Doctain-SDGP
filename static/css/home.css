@@ -203,6 +203,7 @@ span{
 
 .results-container{
     display: flex;
+    height: 500px;
 }
 
 .disease-column, .doctors-column{
@@ -216,12 +217,22 @@ span{
 }
 
 .disease-column>h1, .doctors-column>h1{
+    background-color: #f6f8ff;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    border-bottom: 2px solid #e7e7e7;
+    border-bottom: 2px solid #b4b4b4;
 }
 
+.disease-column>h5{
+    border-bottom: 1px solid #d3d3d3;
+    /*border-top: 1px solid #d3d3d3;*/
+    margin: 5px 20px 15px;
+}
+
+.disease-list{
+    margin-left: 40px;
+}
 
 .disease{
     color: dodgerblue;

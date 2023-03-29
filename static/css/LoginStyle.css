@@ -48,9 +48,18 @@ body{
     border-color: rgba(0, 62, 0, 0.507);
     transition: 0.5s;
     width: 120%;
-    justify-content: center;
-    align-content: center;
     border-radius: 10px;
+}
+
+.textbox2{
+    border-color: rgba(0, 62, 0, 0.507);
+    transition: 0.5s;
+    border-radius: 10px;
+}
+
+select {
+    padding:6px 12px;
+    width: 100%;
 }
 
 .textbox:hover{
