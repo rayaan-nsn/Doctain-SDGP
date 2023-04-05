@@ -113,42 +113,36 @@ table,thead,tbody,tfoot,tr, td,th{
  </head>
  <body>
     <div class="aa_htmlTable">
+      
         <h2 class="aa_h2">Doctors Details Table</h2>
         <table>
           <thead>
             <tr>
-              <th>Month</th>
-              <th>Savings</th>
-              <th>Month</th>
-              <th>Month</th>
-              <th>Savings</th>
-              <th>Month</th>
-              <th>Month</th>
+              <th>FirstName</th>
+              <th>LastName</th>
+              <th>Email</th>
+              <th>Age</th>
+              <th>Specialization</th>
+              <th>PhoneNumber</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Senal</td>
-              <td>Silva</td>
-              <td>senal3fernando@gmail.com</td>
-              <td>34</td>
-              <td>Cancer</td>
-              <td>99886676</td>
-              <td>	Galle</td>
-              
-            </tr>
-            <tr>
-              <td>February</td>
-              <td>$80</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>Sum</td>
-              <td>$180</td>
-            </tr>
-          </tfoot>
+            {% for row in rows %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+              </tr>
+          <tbody>
+          {%endfor%} 
         </table>
+
+       
       </div>
       </div>
  </body>

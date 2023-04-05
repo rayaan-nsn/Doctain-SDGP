@@ -1,11 +1,18 @@
 # import json
 # import os
+from ast import Constant
+import base64
+from collections import UserDict
+from curses import flash
+from functools import wraps
+from msilib.schema import tables
 import os
-from flask import Flask, redirect, render_template, request, jsonify, url_for, session
+from flask import Flask, Response, current_app, redirect, render_template, request, jsonify, url_for, session
 import pandas as pd
+from platformdirs import user_log_path
 from sklearn.naive_bayes import GaussianNB
 # from flask_mysqldb import MySQL
-# import MySQLdb.cursors
+# simport MySQLdb.cursors
 # import re
 import sqlite3
 
@@ -19,7 +26,14 @@ def create_connection():
     conn = sqlite3.connect(DB_PATH)
     return conn
 
-
+def login_not_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" in session:
+            return redirect(url_for("home"))
+        else:
+            return f(*args, **kwargs)
+    return decorated_function
 # --------------------------------------------------------------------Disease Prediction using ML---------------------------------------------------------------------------------------------
 
 def predict_disease(user_symptoms):
@@ -68,6 +82,8 @@ def predict_disease(user_symptoms):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Multiple users login to the system connected with MySQL database
+with app.app_context():
+    current_app.authenticated_username = None
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -91,6 +107,8 @@ def login():
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = account[1]
+                with app.app_context():
+                    current_app.authenticated_username = account[1]
 
                 # Redirect to home page
                 return redirect(url_for('home'))
@@ -103,8 +121,7 @@ def login():
             conn.close()
 
     return render_template('login.html')
-
-
+    
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -135,14 +152,13 @@ def registeruser():
     return ('added user sucessfully!')
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
-
 @app.route('/forgetpw')
 def forgetpw():
     return render_template('forgetpw.html')
 
 @app.route('/home')
 def home():
-    if 'loggedin' in session:
+    if 'username' in session:
         return render_template('home.html', username=session['username'])
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
@@ -150,7 +166,9 @@ def home():
 
 @app.route('/faq')
 def faq():
+    print(current_app.authenticated_username)
     return render_template('faq.html')
+    
 
 
 @app.route('/contactUs')
@@ -227,19 +245,13 @@ def submit():
 def seedocs():
     conn = create_connection()
     cur = conn.cursor()
-    doctors = cur.execute("SELECT * FROM doctorsdetails")
+    cur.execute("SELECT * FROM doctorsdetails")
+    rows = cur.fetchall()
 
-    if doctors > 0:
-        doctorDetails = cur.fetchall()
-        cur.close()
-        conn.close()
-        return render_template('SeeDoctors.html', doctorDetails=doctorDetails)
-    else:
-        return "No doctors found"
-
+    return render_template('SeeDoctors.html', rows=rows)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Upload image to database
+#Define the route for the image upload page
 # Get the absolute path of the current directory
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -252,22 +264,41 @@ conn = sqlite3.connect(db_file)
 # Define the route for the image upload page
 @app.route('/upload')
 def upload():
-    return render_template('presUpload.html')
+    return render_template('upload.html')
 
 # Define the route for handling the image upload
-@app.route('/upload_file', methods=['POST'])
+@app.route('/upload_file', methods=['GET','POST'])
 def upload_file():
     file = request.files['file']
     name = file.filename
     data = file.read()
+    username=current_app.authenticated_username
 
-    conn = sqlite3.connect('doctain.db')
-    conn.execute('INSERT INTO usersdetails1 (filename, data) VALUES (?, ?)', (name, data))
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute('INSERT INTO prescriptionimages (name, data,usernamep) VALUES (?,?, ?)', (name, data,username))
+    cur.close()
     conn.commit()
     conn.close()
 
     return 'File uploaded successfully!'
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@app.route('/getimage', methods=['GET','POST'])
+def getimage():
+    # Open connection to database and retrieve image data
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT data FROM prescriptionimages WHERE usernamep=?", (current_app.authenticated_username,))
+    image_data = cursor.fetchone()[0]
+    conn.close()
+
+    # Convert binary image data to Base64-encoded string
+    image_data_b64 = base64.b64encode(image_data)
+
+    # Create response object containing image data
+    response = Response(image_data_b64, mimetype='text/plain')
+    response.headers['Content-Disposition'] = 'attachment; filename=image.png'
+    return response
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
