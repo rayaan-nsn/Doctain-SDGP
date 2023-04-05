@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/about.css">
+    <script
+            src="https://kit.fontawesome.com/10446019b7.js"
+            crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <nav>
+        <ul>
+        <div>
+        <li><img src="../static/images/logo.png" style="height: 60px" alt=""></li>
+        </div>
+        <div>
+        <li><a href="{{url_for('home')}}">HOME</a></li>
+        <li><a href="{{url_for('faq')}}">FAQ</a></li>
+        <li><a href="{{url_for('contactUs')}}">CONTACT</a></li>
+        <li><a href="{{url_for('upload')}}">PRESCRIPTION</a></li>
+        <li><a class="active" href="#">ABOUT</a></li>
+        </div>
+        <div>
+        <li><a href="./html/login.html">LOGIN</a></li>
+        <li><a href="./html/signup.html" class="reg-button">REGISTER</a></li>
+        <li><a href="#"><i class="fa-regular fa-circle-user fa-2xl"></i></a></li>
+        </div>
+        </ul>
+    </nav>
+
+    <div class="about-tab">
+    <h1 style="font-size: 60px;">DOCTAIN</h1>
+    <h2 style="font-size: 40px;">The &nbsp;Doctor <br> Recommendation<br>System</h2><br>
+    <h3>
+        With the high consumption of unhealthy food and bad lifestyles, the most common<br> 
+        non-communicable diseases have been spreading rapidly throughout the world.<br>
+         Due to the unavailability of a proper reliable platform for patients suffering from<br>
+          non-communicable diseases and the  relevant doctors to connect through a single<br>
+           platform. <br>
+           Thereby, the suggested system aims to create a robust doctor recommendation<br>
+            system which benefits both doctor and the patient using the application of<br>
+             machine learning and data science to allow users to find the most relevant doctor available.
+    </h3>
+    <button class="try-now-button"><a href="{{url_for('home')}}">Try it now...</a></button>
+</div>
+
+    
+    
+</body>
+</html>
