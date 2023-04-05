@@ -5,9 +5,11 @@ import base64
 from collections import UserDict
 from curses import flash
 from functools import wraps
+from io import BytesIO
 from msilib.schema import tables
 import os
-from flask import Flask, Response, current_app, redirect, render_template, request, jsonify, url_for, session
+from tkinter import Image
+from flask import Flask, Response, current_app, redirect, render_template, request, jsonify, send_file, url_for, session
 import pandas as pd
 from platformdirs import user_log_path
 from sklearn.naive_bayes import GaussianNB
@@ -264,7 +266,7 @@ conn = sqlite3.connect(db_file)
 # Define the route for the image upload page
 @app.route('/upload')
 def upload():
-    return render_template('upload.html')
+    return render_template('presUpload.html')
 
 # Define the route for handling the image upload
 @app.route('/upload_file', methods=['GET','POST'])
@@ -280,25 +282,39 @@ def upload_file():
     cur.close()
     conn.commit()
     conn.close()
-
+    return render_template('showPrescription.html', filename=name)
     return 'File uploaded successfully!'
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@app.route('/getimage', methods=['GET','POST'])
-def getimage():
-    # Open connection to database and retrieve image data
-    conn = sqlite3.connect('my_database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT data FROM prescriptionimages WHERE usernamep=?", (current_app.authenticated_username,))
-    image_data = cursor.fetchone()[0]
-    conn.close()
+# @app.route('/getimage', methods=['GET','POST'])
+# # def getimage():
+#     # # Open connection to database and retrieve image data
+#     # # Get the absolute path of the current directory
+#     # dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    # Convert binary image data to Base64-encoded string
-    image_data_b64 = base64.b64encode(image_data)
+#     # # Specify the name and path of the database file
+#     # db_file = os.path.join(dir_path, 'doctain.db')
 
-    # Create response object containing image data
-    response = Response(image_data_b64, mimetype='text/plain')
-    response.headers['Content-Disposition'] = 'attachment; filename=image.png'
-    return response
+#     # # Create a connection to the database using the absolute path
+#     # conn = sqlite3.connect(db_file)
+
+#     # # Query the database to retrieve the image data from the table
+#     # cursor = conn.execute("SELECT data FROM prescriptionimages WHERE usernamep=?", (current_app.authenticated_username,))
+#     # img_data = cursor.fetchone()[0]
+
+#     # # Convert the image data from binary format to base64 encoding
+#     # encoded_img = base64.b64encode(img_data).decode('utf-8')
+
+#     # # Pass the converted image data to the HTML template using Flask's render_template function
+#     # return render_template('showPrescription.html', img_data=encoded_img)
+
+# def download(image_id):
+#     img = Image.query.get_or_404(image_id)
+#     return send_file(
+#         BytesIO(img.data),
+#         mimetype=img.mime,
+#         attachment_filename=img.name
+#     )
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
