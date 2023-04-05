@@ -165,6 +165,7 @@ li a:hover:not(.active) {
     font-size: 20px;
     margin-top: 18vh;
     margin-left: 20vw;
+    text-decoration: none;
 }
 
 .first-flex-container > div > .SeeDiseaseLink {
@@ -203,7 +204,7 @@ li a:hover:not(.active) {
     width: 120px;
     height: 3px;
     border-radius: 4px;
-    background-color: #00507a;
+    /* background-color: #00507a; */
     bottom: -8%;
     left: 0;
     transform-origin: right;

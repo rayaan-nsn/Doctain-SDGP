@@ -6,7 +6,7 @@ from collections import UserDict
 from curses import flash
 from functools import wraps
 from io import BytesIO
-from msilib.schema import tables
+# from msilib.schema import tables
 import os
 from tkinter import Image
 from flask import Flask, Response, current_app, redirect, render_template, request, jsonify, send_file, url_for, session

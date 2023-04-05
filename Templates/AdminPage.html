@@ -26,7 +26,7 @@
         </div>
         <div>
         <li><a href="#" class="reg-button">LOGOUT</a></li>
-        <li><a href="#"><i class="fa-solid fa-gear"></i></a></li>
+        <!-- <li><a href="#"><i class="fa-solid fa-gear"></i></a></li> -->
         </div>
         </ul>
     </nav>
@@ -55,14 +55,14 @@
             Number of doctors registered in the system
             <br><br>
             <div class="count-up" data-value="97">0</div>
-            <div class="SeeDocLink">See all doctors<span class="arrow arrow-right"></span></div>
+            <div class="SeeDocLink"><a href="{{url_for('seedocs')}}">See all Doctors</a><span class="arrow arrow-right"></span></div>
         </div>
         
         <div class="diseasesCount">
             Number of diseases in the system
             <br><br>
             <div class="count-up" data-value="17">0</div>
-            <div class="SeeDiseaseLink">See all diseases<span class="arrow arrow-right"></span></div>
+            <!-- <div class="SeeDiseaseLink">See all diseases<span class="arrow arrow-right"></span></div> -->
         </div>   
     </div>
 
@@ -72,16 +72,16 @@
         <figure class="AddTiles">
             <img src="../static/images/senal/Tile1.jpg">
             <figcaption>
-              <p>Please add doctor details carefully to the system. Click the link below</p><a href="{{url_for('seedocs')}}" class="read-more">Add Doctor</a>
+              <p>Please add doctor details carefully to the system. Click the link below</p><a href="{{url_for('addDoctor')}}" class="read-more">Add Doctor</a>
             </figcaption>
         </figure>
         
-        <figure class="AddTiles">
+        <!-- <figure class="AddTiles">
             <img src="../static/images/senal/Title2.jpg">
             <figcaption>
               <p>Please add diease details carefully to the system. Click the link below</p><a href="#" class="read-more">Add Disease</a>
             </figcaption>
-        </figure>
+        </figure> -->
     </div>
     
 

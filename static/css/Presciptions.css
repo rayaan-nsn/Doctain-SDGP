@@ -9,9 +9,12 @@ body{
     font-family: 'Sofia Sans Semi Condensed', sans-serif;   
 }
 
+/*Navbar*/
+
 nav{
-    display: block;
-    margin: 2% auto auto;
+    /*display: flex;*/
+    /*align-items: center;*/
+    margin: 1% auto auto;
     width: 95%;
 }
 ul {
@@ -26,6 +29,7 @@ ul {
 }
 
 li {
+    align-items: center;
     float: left;
 }
 
@@ -51,9 +55,13 @@ li a:hover:not(.active) {
 }
 
 .active {
-    border-bottom: 4px solid dodgerblue;
+    border-bottom: 3px solid dodgerblue;
     border-radius: 2px;
     /*background-color: #04AA6D;*/
+}
+
+ion-icon{
+    font-size: xx-large;
 }
 
 h1 {
