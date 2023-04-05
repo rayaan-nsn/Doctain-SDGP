@@ -170,7 +170,6 @@ def home():
 def faq():
     print(current_app.authenticated_username)
     return render_template('faq.html')
-    
 
 
 @app.route('/contactUs')
@@ -282,38 +281,38 @@ def upload_file():
     cur.close()
     conn.commit()
     conn.close()
-    return render_template('showPrescription.html', filename=name)
     return 'File uploaded successfully!'
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # @app.route('/getimage', methods=['GET','POST'])
-# # def getimage():
-#     # # Open connection to database and retrieve image data
-#     # # Get the absolute path of the current directory
-#     # dir_path = os.path.dirname(os.path.realpath(__file__))
+# def getimage():
+#     conn = sqlite3.connect('doctain.db')
+#     cursor = conn.cursor()
+#     username=current_app.authenticated_username
+#     print(current_app.authenticated_username)
+#     # Retrieve the image data from the database
+#     cursor.execute('SELECT data FROM prescriptionimages WHERE usernamep = ?', (username,))
+#     image_data = cursor.fetchone()[0]
 
-#     # # Specify the name and path of the database file
-#     # db_file = os.path.join(dir_path, 'doctain.db')
+#     # Create a Flask response object with the image data
+#     response = Response(image_data, mimetype='image/png')
 
-#     # # Create a connection to the database using the absolute path
-#     # conn = sqlite3.connect(db_file)
+#     # Render the image in an HTML template
+#     return render_template('showPrescription.html', image=response)
 
-#     # # Query the database to retrieve the image data from the table
-#     # cursor = conn.execute("SELECT data FROM prescriptionimages WHERE usernamep=?", (current_app.authenticated_username,))
-#     # img_data = cursor.fetchone()[0]
 
-#     # # Convert the image data from binary format to base64 encoding
-#     # encoded_img = base64.b64encode(img_data).decode('utf-8')
+# @app.route('/show-image/<int:image_id>')
+# def show_image(image_id):
+#     # Retrieve the image data from the database
+#     conn = sqlite3.connect('doctain.db')
+#     cursor = conn.cursor()
+#     cursor.execute('SELECT data, mimetype FROM prescriptionimages WHERE id = ?', (image_id,))
+#     image_data, mimetype = cursor.fetchone()
 
-#     # # Pass the converted image data to the HTML template using Flask's render_template function
-#     # return render_template('showPrescription.html', img_data=encoded_img)
+#     # Create a Flask response object with the image data
+#     response = Response(image_data, mimetype=mimetype)
 
-# def download(image_id):
-#     img = Image.query.get_or_404(image_id)
-#     return send_file(
-#         BytesIO(img.data),
-#         mimetype=img.mime,
-#         attachment_filename=img.name
-#     )
+#     # Render the image in an HTML template
+#     return render_template('showPrescription.html', image=response)
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
