@@ -97,45 +97,60 @@ $(document).ready(function () {
          data: JSON.stringify(userInputArray),
          contentType: "application/json;charset=UTF-8",
          success: function (response) {
+            const predicted_disease = response.predicted_disease;
             $('.container').empty().append(
 
                `<div class="results-container">
-                <div class='disease-column'>
-                    <h1 class="">Possible Causes</h1>
-                    <h5>Below are the most likely conditions based on the symptoms and information you entered.</h5>
-                    <div class="disease-list">
-                       <div class="predicted_disease"></div>
-                       <div class="matching_diseases"></div>
-                    </div>
-                  
+                    <div class='disease-column'>
+                        <div class="predicted-disease-tab">
+                            <h2 class="">Predicted Disease : &nbsp;&nbsp;&nbsp;&nbsp;</h2>
+                            <h2 class="predicted_disease"></h2>
+                        </div>
+                        <div class="matching-disease-tab">
+                            <h2 style="padding-top: 20px; padding-bottom: 10px">Possible Causes</h2>
+                            <div class="matching_diseases"></div>
+                        </div>
+                
+<!--                    <h1 class="">Possible Causes</h1>-->
+<!--                    <h5>Below are the most likely conditions based on the symptoms and information you entered.</h5>-->
+<!--                    <div class="disease-list">-->
+<!--                       <div class="predicted_disease"></div>-->
+<!--                       <div class="matching_diseases"></div>-->
+<!--                    </div>-->
                 </div>
                 <div class="doctors-column">
-                    <h1>Recommended Doctors</h1>
+                    <h1>Recommended Doctors for ${predicted_disease}</h1>
                     <div class="recommended-doctors"></div>
                 </div>
             </div>
             `);
 
-            const predicted_disease = response.predicted_disease;
+
             $('.predicted_disease').append(`<h3 class="diseases" style="color: red">${predicted_disease}</h3>`);
 
             for (let i = 0; i < response.matching_diseases.length; i++) {
                const matching_diseases = response.matching_diseases[i];
-               $('.matching_diseases').append(`<p>${matching_diseases}</p>`);
+               $('.matching_diseases').append(`<h4 class="matching-disease">${matching_diseases}</h4>`);
             }
 
 
             const doctors = response.doctors;
             for (let i = 0; i < doctors.length; i++) {
-              const doctor = doctors[i];
-              $('.recommended-doctors').append(`
-                <div class="doctor-profile">
-                  <p><i class="fa-regular fa-user"></i> &nbsp; ${doctor.firstname} ${doctor.lastname}</p>
-                  <p><i class="fa-solid fa-at"></i> &nbsp; ${doctor.email}</p>
-                  <p><i class="fa-solid fa-phone"></i> &nbsp; ${doctor.phonenumber}</p>
-                  <p><i class="fa-solid fa-location-dot"></i> &nbsp; ${doctor.address}</p>
-                </div>
-              `);
+                 const doctor = doctors[i];
+                 $('.recommended-doctors').append(`
+                      <div style="display: flex" class="doctor-profile">
+                            <div class="doctor-image">
+                                <img style="height: 90%; width: 90px" src="../static/images/rayaan/maleDoc.png" alt="doctor">
+                            </div>
+                            <div class="doctor-info" style="width: 50%; margin-left: 30px">
+<!--                            <i class="fa-regular fa-user"></i> &nbsp;-->
+                                 <h2> ${doctor.firstname} ${doctor.lastname}</h2>
+                                 <p><i class="fa-solid fa-at"></i> &nbsp; ${doctor.email}</p>
+                                 <p><i class="fa-solid fa-phone"></i> &nbsp; ${doctor.phonenumber}</p>
+                                 <p><i class="fa-solid fa-location-dot"></i> &nbsp; ${doctor.address}</p>
+                            </div>
+                      </div>
+                 `);
             }
           },
           error: function (xhr, status, error) {
