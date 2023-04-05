@@ -215,6 +215,11 @@ def admin():
     return render_template('AdminPage.html')
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @app.route('/addDoctor', methods=["GET", "POST"])
 def addDoctor():
     return render_template('AddDoctor.html')
