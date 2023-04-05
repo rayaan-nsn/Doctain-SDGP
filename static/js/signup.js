@@ -1,26 +1,26 @@
-// //Signup
-// let updatedUserEmail = '';
-// let updatedPwd = '';
+// // //Signup
+// // let updatedUserEmail = '';
+// // let updatedPwd = '';
 
-// const signupForm = document.getElementById('signupform');
-// const signupErrorContainer = document.getElementById('signupErrorContainer');
-// const signupErrorLink = 'file:///D:/IIT 2nd Year/SDGP/NEW Doctain Login/signup.html'; // hosted link to signup.html or link to signup.html directory -------------------5
+// // const signupForm = document.getElementById('signupform');
+// // const signupErrorContainer = document.getElementById('signupErrorContainer');
+// // const signupErrorLink = 'file:///D:/IIT 2nd Year/SDGP/NEW Doctain Login/signup.html'; // hosted link to signup.html or link to signup.html directory -------------------5
 
-// signupForm.addEventListener('submit', function(event) {
-//   // Prevent the form from submitting normally
-//   event.preventDefault();
+// // signupForm.addEventListener('submit', function(event) {
+// //   // Prevent the form from submitting normally
+// //   event.preventDefault();
 
-//   // Get the form fields
-//   const name = document.getElementById('newname').value;
-//   const email = document.getElementById('newemail').value;
-//   const contactno = document.getElementById('newcontactno').value;
-//   const country = document.getElementById('country').value;
-//   const birthdate = document.getElementById('birthdate').value;
-//   const gender = document.querySelector('input[name="gender"]:checked');
-//   const username = document.getElementById('newusername').value;
-//   const password = document.getElementById('newpassword').value;
+// //   // Get the form fields
+// //   const name = document.getElementById('newname').value;
+// //   const email = document.getElementById('newemail').value;
+// //   const contactno = document.getElementById('newcontactno').value;
+// //   const country = document.getElementById('country').value;
+// //   const birthdate = document.getElementById('birthdate').value;
+// //    const gender = document.querySelector('input[name="gender"]:checked');
+// //   const username = document.getElementById('newusername').value;
+// //   const password = document.getElementById('newpassword').value;
 
-//   // Check if any field is empty
+// //   // Check if any field is empty
 //   let errorMessage = '';
 //   if (!name.trim()) {
 //     errorMessage += 'Name is required';
@@ -65,7 +65,8 @@
 //     updateVariable(password,email);
 //   }
 //   signupForm.reset();
-// });
+
+
 
 // function updateVariable(updatedPwd, updatedUserEmail) {
 //   localStorage.setItem('updatedEmail', updatedUserEmail);
@@ -75,3 +76,34 @@
 //   inputEmail.value = updatedUserEmail;
 //   inputPwd.value = updatedPwd;
 // }
+
+
+
+const form = document.getElementById('signupform');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const jsonData = {};
+
+    for (let [key, value] of formData.entries()) {
+        jsonData[key] = value;
+    }
+
+    fetch('/registeruser', {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        form.reset();
+    })
+    .catch(error => console.error(error));
+});
+
+

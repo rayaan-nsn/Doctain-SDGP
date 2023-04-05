@@ -1,5 +1,6 @@
 # import json
 # import os
+import os
 from flask import Flask, redirect, render_template, request, jsonify, url_for, session
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
@@ -81,7 +82,7 @@ def login():
             # Check if account exists using SQLite database
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
-            cursor.execute('SELECT * FROM usersdetails WHERE (username = ? OR email = ?) AND password = ?',
+            cursor.execute('SELECT * FROM usersdetails1 WHERE (username = ? OR email = ?) AND password = ?',
                            (username, username, password,))
             account = cursor.fetchone()
 
@@ -106,9 +107,34 @@ def login():
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-@app.route('/signup')
+@app.route('/signup', methods=["GET", "POST"])
 def signup():
     return render_template('signup.html')
+
+@app.route('/registeruser', methods=["POST"])
+def registeruser():
+    data = request.get_json()
+    name = data['Name']
+    email = data['Email']
+    country = data['Country']
+    bday = data['Birthdate']
+    gender = data['Gender']
+    username=data['Username']
+    password=data['Password']
+    bookmark='dummy'
+   
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO usersdetails1 (username,password,name,email,country,birthday,gender,bookmark) VALUES (?,?,?,?,?,?,?,?)",
+        (username,password,name,email,country,bday,gender,bookmark))
+    conn.commit()
+    cur.close()
+    conn.close()
+    print ('added user sucessfully!')
+    return ('added user sucessfully!')
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
 
 @app.route('/forgetpw')
 def forgetpw():
@@ -194,7 +220,8 @@ def submit():
     conn.commit()
     cur.close()
     conn.close()
-
+    return ('added doctor sucessfully!')
+   
 
 @app.route('/seedocs')
 def seedocs():
@@ -204,12 +231,43 @@ def seedocs():
 
     if doctors > 0:
         doctorDetails = cur.fetchall()
+        cur.close()
+        conn.close()
         return render_template('SeeDoctors.html', doctorDetails=doctorDetails)
     else:
         return "No doctors found"
-    cur.close()
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Upload image to database
+# Get the absolute path of the current directory
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+# Specify the name and path of the database file
+db_file = os.path.join(dir_path, 'doctain.db')
+
+# Create a connection to the database using the absolute path
+conn = sqlite3.connect(db_file)
+
+# Define the route for the image upload page
+@app.route('/upload')
+def upload():
+    return render_template('presUpload.html')
+
+# Define the route for handling the image upload
+@app.route('/upload_file', methods=['POST'])
+def upload_file():
+    file = request.files['file']
+    name = file.filename
+    data = file.read()
+
+    conn = sqlite3.connect('doctain.db')
+    conn.execute('INSERT INTO usersdetails1 (filename, data) VALUES (?, ?)', (name, data))
+    conn.commit()
     conn.close()
 
-
+    return 'File uploaded successfully!'
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
 if __name__ == '__main__':
     app.run(debug=True)

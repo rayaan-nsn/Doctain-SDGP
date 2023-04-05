@@ -13,19 +13,19 @@
    <body>
     <img src="../static/images/logo.png" class="logo" />
     <div class="div">
-      <form id="signupform" class="form">
+      <form id="signupform" class="form" method="Post">
         <h1 class="headding">Signup</h1>
         <div class="mb-3">
-          <input type="text" placeholder="Name" class="form-control textbox2" id="newname" aria-describedby="nameHelp">
+          <input type="text" placeholder="Name" class="form-control textbox2" id="newname" aria-describedby="nameHelp" name="Name">
         </div>
         <div class="mb-3">
-          <input type="email" placeholder="Email Address" class="form-control textbox2" id="newemail" aria-describedby="emailHelp">
+          <input type="email" placeholder="Email Address" class="form-control textbox2" id="newemail" aria-describedby="emailHelp" name="Email">
         </div>
-        <div class="mb-3">
-          <input type="number" placeholder="Contact Number" class="form-control textbox2" id="newcontactno" aria-describedby="emailHelp">
-        </div>
+        <!-- <div class="mb-3">
+          <input type="number" placeholder="Contact Number" class="form-control textbox2" id="newcontactno" aria-describedby="emailHelp" name="ContactNo">
+        </div> -->
         <div class="form-group mb-3">
-          <select id="country" class="textbox2">
+          <select id="country" class="textbox2" name="Country">
             <option value="" selected>Country</option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Albania">Albania</option>
@@ -269,15 +269,15 @@
           </select>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="birthdate">Birthday</label>
-          <input type="date" class="form-control textbox2" id="birthdate" name="birthdate">
+          <label class="form-label" for="birthdate" nme="Birthday">Birthday</label>
+          <input type="date" data-date-format="YYYY MMMM DD" class="form-control textbox2" id="birthdate" name="Birthdate">
         </div>
         <div class="mb-3">
-          <label class="form-label">Gender</label>
+          <label class="form-label" name="Gender">Gender</label>
 
           <br />
 
-          <input type="radio" class="form-check-input" id="m" name="gender">
+          <input type="radio" class="form-check-input" id="m" name="Gender">
           <label class="form-radio-label" for="m">Male</label>
 
           <br />
@@ -287,10 +287,10 @@
         </div>
 
         <div class="mb-3">
-          <input type="text" placeholder="Username" class="form-control textbox2" id="newusername" aria-describedby="nameHelp">
+          <input type="text" placeholder="Username" class="form-control textbox2" id="newusername" aria-describedby="nameHelp" name="Username">
         </div>
         <div class="mb-3">
-          <input type="password" placeholder="Password" class="form-control textbox2" id="newpassword">
+          <input type="password" placeholder="Password" class="form-control textbox2" id="newpassword" name="Password">
         </div>
         <div id="signupErrorContainer"></div>
         <button type="submit" class="btn">Submit</button>
