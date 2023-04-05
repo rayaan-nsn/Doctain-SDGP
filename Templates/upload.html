@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+      <div>
+      <li><img src="../static/images/logo.png" style="height: 60px" alt=""></li>
+      </div>
+      <div>
+      <li><a href="#">HOME</a></li>
+      <li><a href="#">ABOUT</a></li>
+      <li><a href="#">SERVICE</a></li>
+      <li><a class="#">FAQ</a></li>
+      <li><a href="#">CONTACT</a></li>
+      </div>
+      <div>
+      <li><a href="#">LOGIN</a></li>
+      <li><a href="#" class="reg-button">REGISTER</a></li>
+      <li><a href="#"><i class="fa-solid fa-gear"></i></a></li>
+      </div>
+      </ul>
+  </nav>
+
+  <h1>Save Your Prescriptions Here!</h1>
+    <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+  </body>
+</html>
+
