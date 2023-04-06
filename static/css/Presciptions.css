@@ -97,3 +97,41 @@ h1 {
     width: 50%;
     height: 50%;
   }
+
+
+  /* Add this to your styles.css file */
+.my-form {
+    width: 100%;
+    display: block;
+    margin: auto;
+    /* display: flex;
+    flex-direction: column; */
+    /* align-items: center; */
+    margin-top: 20px;
+  }
+  
+  input[type="file"] {
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  
+  input[type="submit"] {
+    color: white;
+    font-size: 15px;
+    background-color: dodgerblue;
+    display: block;
+    margin: auto;
+    border: 2px solid white;
+    height: 40px;
+    width: 120px;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: white;
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
+  }
+  

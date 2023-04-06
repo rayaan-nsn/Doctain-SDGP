@@ -19,7 +19,8 @@
       <li><a href="{{url_for('home')}}">HOME</a></li>
       <li><a href="{{url_for('faq')}}">FAQ</a></li>
       <li><a href="{{url_for('contactUs')}}">CONTACT</a></li>
-      <li><a class="active" href="#">SHOW PRESCRIPTION</a></li>
+      <li><a class="active" href="#">PRESCRIPTION</a></li>
+      <li><a href="{{url_for('about')}}">ABOUT</a></li>
       </div>
       <div>
       <li><a href="./html/login.html">LOGIN</a></li>
@@ -30,7 +31,7 @@
   </nav>
   <h1>Save Your Prescriptions Here!</h1>
     <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
-      <input type="file" name="file">
+      <input type="file" name="file"><br>
       <input type="submit" value="Upload">
     </form>
     <br>

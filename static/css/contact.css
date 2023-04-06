@@ -80,6 +80,7 @@ ion-icon{
 	border: 2px solid #ddd;
 	border-radius: 4px;
 	margin: 20px auto;
+  margin-top: 50px;
 	padding: 20px;
 	max-width: 600px;
   }
@@ -121,5 +122,24 @@ ion-icon{
 	color: #f00;
 	font-size: 12px;
 	margin-top: 5px;
+  }
+
+  .submit-contact-form{
+    color: white;
+    font-size: 15px;
+    background-color: dodgerblue;
+    display: block;
+    margin: auto;
+    border: 2px solid white;
+    height: 50px;
+    width: 130px;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+  }
+
+  .submit-contact-form:hover{
+    background-color: white;
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
   }
   
