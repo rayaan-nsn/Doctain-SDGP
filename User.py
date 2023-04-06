@@ -257,7 +257,7 @@ def seedocs():
     return render_template('SeeDoctors.html', rows=rows)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Define the route for the image upload page
+#Define the route for the image upload web page
 # Get the absolute path of the current directory
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
