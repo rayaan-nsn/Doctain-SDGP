@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital@1&display=swap');
+*{
+    /*background-color: #d9e0ff;*/
+    margin: 0;
+    font-family: 'Sofia Sans Semi Condensed', sans-serif;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    background-image: url(../images/rayaan/about-bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+/*Navbar*/
+
+nav{
+    /*display: flex;*/
+    /*align-items: center;*/
+    margin: 1% auto auto;
+    width: 95%;
+}
+ul {
+    display: flex;
+    width: 100%;
+    list-style-type: none;
+    margin: 5px 0 0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: #333;*/
+    justify-content: space-between;
+}
+
+li {
+    align-items: center;
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.reg-button a:hover:not(.active){
+    color: white;
+}
+
+li a:hover:not(.active) {
+    color: dodgerblue;
+}
+
+.reg-button{
+    background-color: dodgerblue;
+    border-radius: 10px;
+}
+
+.active {
+    border-bottom: 3px solid dodgerblue;
+    border-radius: 2px;
+    /*background-color: #04AA6D;*/
+}
+
+ion-icon{
+    font-size: xx-large;
+}
+
+.about-tab{
+    width: 50%;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.try-now-button{
+    /* display: block;
+    margin: 2% auto auto; */
+    text-decoration: none;
+    margin-top: 15px;
+    height: 30px;
+    width: 20%;
+    color: white;
+    font-size: large;
+    background-color: dodgerblue;
+    border-radius: 100px;
+    border: none;
+}

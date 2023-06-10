@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script
+            src="https://kit.fontawesome.com/10446019b7.js"
+            crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <nav>
+        <ul>
+        <div>
+        <li><img src="../static/images/logo.png" style="height: 60px" alt=""></li>
+        </div>
+        <div>
+        <li><a class="active" href="#home">HOME</a></li>
+        <li><a href="{{url_for('faq')}}">FAQ</a></li>
+        <li><a href="{{url_for('contactUs')}}">CONTACT</a></li>
+        <li><a href="{{url_for('upload')}}">PRESCRIPTION</a></li>
+        <li><a href="{{url_for('about')}}">ABOUT</a></li>
+        </div>
+        <div>
+        <li><a href="{{url_for('login')}}">LOGIN</a></li>
+        <li><a href="./html/signup.html" class="reg-button">REGISTER</a></li>
+        <li><a href="#"><i class="fa-regular fa-circle-user fa-2xl"></i></a></li>
+        </div>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1 class="title">Find Out A Doctor <br>
+            More Experienced And <br>
+            More Easy.</h1>
+        <div class="search-box">
+            <label for="searchTerm"></label><input type="text" id="searchTerm" placeholder="What symptoms are you experiencing today?" autocomplete="off">
+            <div id="suggestionsList"></div>
+            <div id="tagList"></div>
+            <h6>* The more symptoms you tell us, the more accurate your results will be.</h6>
+            <button type="submit" class="searchButton">SEARCH</button>
+        </div>
+        <div class="statistics">
+            <h5><span>50k+</span><br>
+                Recover Patients</h5>
+            <h5><span>90%</span><br>
+                Satisfaction</h5>
+            <h5><span>67+</span><br>
+                Expert Doctors</h5>
+        </div>
+    </div>
+
+<footer>
+    <h6>© 2023 · Doctain · All rights reserved</h6>
+</footer>
+
+
+</body>
+<script src="../static/js/home.js"></script>
+</html>

@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/contact.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+    src="https://kit.fontawesome.com/10446019b7.js"
+    crossorigin="anonymous"
+></script>
+</head>
+<body>
+
+    <nav>
+        <ul>
+        <div>
+        <li><img src="../static/images/logo.png" style="height: 60px" alt=""></li>
+        </div>
+        <div>
+        <li><a href="{{url_for('home')}}">HOME</a></li>
+        <li><a href="{{url_for('faq')}}">FAQ</a></li>
+        <li><a class="active" href="{{url_for('contactUs')}}">CONTACT</a></li>
+        <li><a href="{{url_for('upload')}}">PRESCRIPTION</a></li>
+        <li><a href="{{url_for('about')}}">ABOUT</a></li>
+        </div>
+        <div>
+        <li><a href="./html/login.html">LOGIN</a></li>
+        <li><a href="./html/signup.html" class="reg-button">REGISTER</a></li>
+        <li><a href="#"><i class="fa-regular fa-circle-user fa-2xl"></i></a></li>
+        </div>
+        </ul>
+    </nav>
+
+    <form id="myForm" action="https://api.web3forms.com/submit" method="POST">
+
+        <input type="hidden" name="access_key" value="b9742361-523b-45d9-b3cd-17aec340ac71">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <div id="nameError" class="error"></div>
+      
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <div id="emailError" class="error"></div>
+      
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <div id="messageError" class="error"></div>
+
+        <input type="hidden" name="redirect" value="https://web3forms.com/success">
+    
+        <button class="submit-contact-form" type="submit">Submit Form</button>
+    
+    </form>
+
+
+<script>
+    $('#myForm').submit(function(e) {
+        e.preventDefault();
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var message = $('#message').val();
+        var nameError = '';
+        var emailError = '';
+        var messageError = '';
+
+        if (name.length < 2) {
+            nameError = 'Name must be at least 2 characters long.';
+        }
+
+        if (!email.includes('@')) {
+            emailError = 'Please enter a valid email address.';
+        }
+
+        if (message.length < 10) {
+            messageError = 'Message must be at least 10 characters long.';
+        }
+
+        if (nameError != '' || emailError != '' || messageError != '') {
+            $('#nameError').html(nameError);
+            $('#emailError').html(emailError);
+            $('#messageError').html(messageError);
+        } else {
+            $('#nameError').html('');
+            $('#emailError').html('');
+            $('#messageError').html('');
+            this.submit();
+        }
+                // // get form data and submit using AJAX
+        // var formData = $(this).serialize();
+        // $.ajax({
+        //   url: $(this).attr('action'),
+        //   type: 'POST',
+        //   data: formData,
+        //   success: function(response) {
+        //     // handle successful form submission here
+        //     console.log(response);
+        //   },
+        //   error: function(error) {
+        //     // handle form submission error here
+        //     console.log(error);
+        //   }
+        // });
+    });
+</script>
+</html>
+
+        
+
+

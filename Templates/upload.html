@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="../static/css/Presciptions.css">
+    <script
+            src="https://kit.fontawesome.com/10446019b7.js"
+            crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav>
+      <ul>
+      <div>
+      <li><img src="../static/images/logo.png" style="height: 60px" alt=""></li>
+      </div>
+      <div>
+      <li><a href="{{url_for('home')}}">HOME</a></li>
+      <li><a href="{{url_for('faq')}}">FAQ</a></li>
+      <li><a href="{{url_for('contactUs')}}">CONTACT</a></li>
+      <li><a href="{{url_for('upload')}}">PRESCRIPTION</a></li>
+      </div>
+      <div>
+      <li><a href="./html/login.html">LOGIN</a></li>
+      <li><a href="./html/signup.html" class="reg-button">REGISTER</a></li>
+      <li><a href="#"><i class="fa-regular fa-circle-user fa-2xl"></i></a></li>
+      </div>
+      </ul>
+  </nav>
+
+  <h1>Save Your Prescriptions Here!</h1>
+    <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+  </body>
+</html>
+

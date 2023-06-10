@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+    <link rel="stylesheet" href="../static/css/AddDoctor.css">
+    
+    <script
+        src="https://kit.fontawesome.com/10446019b7.js"
+        crossorigin="anonymous"
+    ></script>
+
+</head>
+<body>
+    <nav>
+        <ul>
+        <div>
+        <li><img src="../static/images/logo.png" style="height: 80px" alt=""></li>
+        </div>
+        <div>
+        <li><a class="" href="{{url_for('admin')}}">DASHBOARD</a></li>
+        <li><a class="active" href="{{url_for('addDoctor')}}">ADD DOCTOR</a></li>
+        </div>
+        <div>
+        <li><a href="#" class="reg-button">LOGOUT</a></li>
+        <!-- <li><a href="#"><i class="fa-solid fa-gear"></i></a></li> -->
+        </div>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+    
+        <div class="flex-container-1">
+            <img class="docImage" src="../static/images/senal/Doctor3D.jpg" alt="3D Doctor image">
+        </div>
+      
+        <div class="flex-container-2">
+            Add all the doctor details and register to the system.
+
+            <div class="container">
+                <div class="title">Doctor Registration</div>
+                <div class="content">
+                <form id="savedoctorform" method="POST">
+                    <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input type="text" placeholder="First Name" name="Firstname" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input type="text" placeholder="Last Name" name="Lastname" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="text" placeholder="Email" name="Email" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Age</span>
+                        <input type="text" placeholder="Age" name="Age" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Specialization</span>
+                        <input type="text" placeholder="Specialization"  name="Specialization" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text" placeholder="Phone" name="Phonenumber">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Address</span>
+                        <input type="text" placeholder="Address" name="Address" >
+                    </div>
+
+                    <!--Newly added ones-->
+            
+                    </div>
+                    <div class="gender-details">
+                    <input type="radio" name="gender" id="dot-1">
+                    <input type="radio" name="gender" id="dot-2">
+                    <input type="radio" name="gender" id="dot-3">
+                    <span class="gender-title">Gender</span>
+                    <div class="category">
+                        <label for="dot-1">
+                        <span class="dot one"></span>
+                        <span class="gender">Male</span>
+                    </label>
+                    <label for="dot-2">
+                        <span class="dot two"></span>
+                        <span class="gender">Female</span>
+                    </label>
+                    <label for="dot-3">
+                        <span class="dot three"></span>
+                        <span class="gender">Prefer not to say</span>
+                        </label>
+                    </div>
+                    </div>
+                    <div class="button">
+                    <input type="submit" value="Submit">
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+ const form = document.getElementById('savedoctorform');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const jsonData = {};
+
+    for (let [key, value] of formData.entries()) {
+        jsonData[key] = value;
+    }
+
+    fetch('/submit', {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        form.reset();
+    })
+    .catch(error => console.error(error));
+});
+</script>
+
+</body>
+</html>

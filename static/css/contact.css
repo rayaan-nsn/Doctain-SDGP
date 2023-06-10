@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital@1&display=swap');
+*{
+    /*background-color: #d9e0ff;*/
+    margin: 0;
+    font-family: 'Sofia Sans Semi Condensed', sans-serif;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    background-image: url(../images/rayaan/contact-bg3.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+/*Navbar*/
+
+nav{
+    /*display: flex;*/
+    /*align-items: center;*/
+    margin: 1% auto auto;
+    width: 95%;
+}
+ul {
+    display: flex;
+    width: 100%;
+    list-style-type: none;
+    margin: 5px 0 0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: #333;*/
+    justify-content: space-between;
+}
+
+li {
+    align-items: center;
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.reg-button a:hover:not(.active){
+    color: white;
+}
+
+li a:hover:not(.active) {
+    color: dodgerblue;
+}
+
+.reg-button{
+    background-color: dodgerblue;
+    border-radius: 10px;
+}
+
+.active {
+    border-bottom: 3px solid dodgerblue;
+    border-radius: 2px;
+    /*background-color: #04AA6D;*/
+}
+
+ion-icon{
+    font-size: xx-large;
+}
+
+/*navbar ends*/
+
+
+  
+  form {
+	background-color: #fff;
+	border: 2px solid #ddd;
+	border-radius: 4px;
+	margin: 20px auto;
+  margin-top: 50px;
+	padding: 20px;
+	max-width: 600px;
+  }
+  
+  label {
+	display: block;
+	margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+  }
+  
+
+
+  input[type="submit"] {
+	background-color: #4CAF50;
+	color: #fff;
+	border: none;
+	padding: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+  }
+  
+  input[type="submit"]:hover {
+	background-color: #3e8e41;
+  }
+  
+  
+  .error {
+	color: #f00;
+	font-size: 12px;
+	margin-top: 5px;
+  }
+
+  .submit-contact-form{
+    color: white;
+    font-size: 15px;
+    background-color: dodgerblue;
+    display: block;
+    margin: auto;
+    border: 2px solid white;
+    height: 50px;
+    width: 130px;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+  }
+
+  .submit-contact-form:hover{
+    background-color: white;
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
+  }
+  
